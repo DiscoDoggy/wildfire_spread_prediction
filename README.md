@@ -13,32 +13,42 @@ An example of what one feature for one sample is serialized as is shown below:
 
 <img width="124" height="589" alt="image" src="https://github.com/user-attachments/assets/5dbdc1ff-1dba-4546-936d-b9beca71bfcf" />
 
-Variable Topic
-Description
-Elevation
-Heatmap detailing elevation over a region in meters
-Wind direction
-Heatmap detailing wind direction in degrees over a region
-Wind speed
-Heatmap detailing speed of wind in meters per second over a region
-Min temp.
-Heatmap detailing the minimum temperature of a series of sampled temperatures over the course of a few hours over a certain region in Kelvin
-Max Temp
-Heatmap detailing the maximum temperature of a series of sampled temperatures over the course of a few hours over a certain region in Kelvin
-Humidity
-Heatmap detailing the recorded humidity over a region in kg/kg which is ratio of mass of water vapor to the mass of dry air
-Precipitation
-Heatmap detailing the precipitation over a region in millimeters. Recorded precipitation is defined as the daily total.
-Drought Index
-Heatmap detailing the drought index over an area. Measured from 2.0+ being very wet to -2 or less being extremely dry
-Vegetation
-Heatmap of vegetation over an area measured through Normalized Difference Vegetation Index (NDVI). Describes greenness and density of vegetation
-Population Density
-Heatmap of population over a region measured as people per square kilometer. 84% of fires caused by humans. This feature is meant to capture that likelihood.
-Energy Release Component
-Output of a national fire danger rating system describing the relationship between fuel moisture and potential fire intensity
-Previous Fire mask
-Fire mask over a region at time step t which is the current day
-Fire mask
-Fire mask over a region at time step t + 1 this is the target variable
+We provide a list of all features and their corresponding meaning below:
+
+| Variable Topic | Description |
+| :--- | :--- |
+| Elevation | Heatmap detailing elevation over a region in meters |
+| Wind direction | Heatmap detailing wind direction in degrees over a region |
+| Wind speed | Heatmap detailing speed of wind in meters per second over a region |
+| Min temp. | Heatmap detailing the minimum temperature of a series of sampled temperatures over the course of a few hours over a certain region in Kelvin |
+| Max Temp | Heatmap detailing the maximum temperature of a series of sampled temperatures over the course of a few hours over a certain region in Kelvin |
+| Humidity | Heatmap detailing the recorded humidity over a region in kg/kg which is ratio of mass of water vapor to the mass of dry air |
+| Precipitation | Heatmap detailing the precipitation over a region in millimeters. Recorded precipitation is defined as the daily total. |
+| Drought Index | Heatmap detailing the drought index over an area. Measured from 2.0+ being very wet to -2 or less being extremely dry |
+| Vegetation | Heatmap of vegetation over an area measured through Normalized Difference Vegetation Index (NDVI). Describes greenness and density of vegetation |
+| Population Density | Heatmap of population over a region measured as people per square kilometer. 84% of fires caused by humans. This feature is meant to capture that likelihood. |
+| Energy Release Component | Output of a national fire danger rating system describing the relationship between fuel moisture and potential fire intensity |
+| Previous Fire mask | Fire mask over a region at time step t which is the current day |
+| Fire mask | Fire mask over a region at time step t + 1 this is the target variable |
+
+## Visualizing the Data:
+Now that we know how the data is serialized, we can utilize Python and Python's matplotlib to assemble 64x64 heatmaps of each feature. 64x64 where a single cell represents a 1km x 1km area.
+
+<img width="1390" height="818" alt="image" src="https://github.com/user-attachments/assets/36352534-256e-4395-b5e6-066e901990a4" /> 
+
+## Preprocessing the Data
+We plan to take two approaches for wildfire spread prediction: traditional ML methods and Deep Learning. Each calls for different preprocessing methodologies. 
+
+### Deep Learning Preprocessing
+For deep learning, we aim to use convolutional neural networks so we can frame the problem as an image segmentation problem given a set of channels. Here each channel represents a 64x64 km feature map. To preprocess, we convert each feature for a particular sample
+into a 64 x 64 "image" in which we stack on top of eachother to get a 64 x 64 x 12 training sample.
+
+### Machine Learning Preprocessing
+For machine learning, we cannot use the same approach as we did in deep learning. If we did, we would have a 49,152 feature sample which is far too many samples. Instead, we take s 3x3x12 windows and predict the center pixel as fire or no fire. The idea is that we can then string multiple of these predictions together to create a firemap. We cut 49,152 features down to 108 features (3x3x12).
+
+## Machine Learning Results
+### Logistic Regression
+
+<img width="1159" height="743" alt="image" src="https://github.com/user-attachments/assets/401f5e2a-53b1-44f0-be5a-ba1a512b68c0" />
+
 
