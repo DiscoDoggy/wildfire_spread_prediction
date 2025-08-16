@@ -49,6 +49,31 @@ For machine learning, we cannot use the same approach as we did in deep learning
 ## Machine Learning Results
 ### Logistic Regression
 
+Logistic regression unsurprisingly underfits the data significantly. We opt not to use any regularization due to this fact. Logistic regression likely is not complex enough of a model to learn the underlying structures behind wildfire spread.
+We analyze probability maps and observe that the model is far too overconfident about the presence of wildfire spread exemplified by entire fire maps being colored yellow.
+
 <img width="1159" height="743" alt="image" src="https://github.com/user-attachments/assets/401f5e2a-53b1-44f0-be5a-ba1a512b68c0" />
+
+### Support Vector Machines (SVMs)
+We achieve marginally better results visually compared to logistic regression. Looking at fire map 1 and fire map 4, we see at least similar volumes of fire pixels predicted instead of the overwhelming mostly fire fire maps we see in logistic regression. Fire map 1 for SVMs understands the general location of some of the fires. Fire map 2,3, and 5 still largely over predict the presence of wildfires. 
+
+<img width="1328" height="667" alt="image" src="https://github.com/user-attachments/assets/202840cb-57b7-4f0a-84ee-0c74d5154a66" />
+
+### Random Forest
+Random forest performs incredibly well and is also confident about its decisions. Random forest closely matches the number of fire pixel clusters along with the general location of where the clusters are. Additionally, compared to logistic regression, random forest has high confidence when it predicts a fire pixel and when there is no fire pixel there is very low confidence. The model still struggles when larger clusters are closer together, seeming to combine the clusters rather than separate. This could be due to the fact that the model only has 3x3x12 windows and each “pixel’s” prediction is independent of the previous. 
+
+<img width="1204" height="771" alt="image" src="https://github.com/user-attachments/assets/7f6a63e3-9390-45ac-997e-04bde6061e52" />
+
+### Gradient Boosted Trees
+The gradient boosted trees perform similarly to random forest. They both get the general number of clusters and general location close to correct. The results for the gradient boosted trees differ from the random forest in the fact that the gradient boosted trees tend to have a noisier fire map. There are a few extra specs of fire pixels scattered across the entire map even when there are clusters in the correct location and size. The extra fire specs are interesting because the probability map shows that the model is not as confident about those specs as they are about the correctly classified clusters. Gradient boosted trees also tend to predict geometrically rounded shapes such as rectangles which is interesting.
+
+<img width="1180" height="748" alt="image" src="https://github.com/user-attachments/assets/f2221031-e8f7-4e94-a455-91afdbbf282e" />
+
+### Deep Learning - Convolutional Neural Network
+Due to computational constraints, we implement a deep convolutional neural network and we also do not use very much of the training data. The convolutional neural network used is not a ResNet possibly explaining why the model shows little improvements between 100 epochs and 200 epochs. The combination of a deepish model with not using a lot of the training data could explain poor performance. Huot with a Resnet gets better results.
+
+<img width="1314" height="567" alt="image" src="https://github.com/user-attachments/assets/819b6944-d28e-46c6-876b-d81de25154c3" />
+
+<img width="1186" height="524" alt="image" src="https://github.com/user-attachments/assets/1649bbc8-71e3-4e28-b78e-1b9cd8583509" />
 
 
